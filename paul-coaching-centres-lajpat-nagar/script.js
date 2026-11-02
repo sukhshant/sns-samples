@@ -13,6 +13,8 @@
   var stations = $$('.station', rail), labels = $$('.linelabel', rail);
   var nav = $('.nav');
   var FILL_H = 8000;
+  var printOn = false, heroOn = false;
+  function syncBar() { bar.classList.toggle('is-hidden', printOn || heroOn); }
 
   /* ---------- Reveal ---------- */
   var reveals = $$('.reveal');
@@ -156,7 +158,7 @@
   }
   function hideTicket() {
     slot.classList.remove('printed', 'go', 'on-line');
-    bar.classList.remove('is-hidden');
+    printOn = false; syncBar();
     var layer = rail.querySelector('.fill-layer');
     rail.insertBefore(slot, layer);
   }
@@ -297,10 +299,16 @@
   });
   $('#rt-reset').addEventListener('click', seeWholeLine);
 
-  /* ---------- Bottom bar steps aside for the ticket ---------- */
+  /* ---------- Bottom bar steps aside for the ticket, and for the hero's own two buttons ---------- */
   new IntersectionObserver(function (es) {
-    es.forEach(function (e) { bar.classList.toggle('is-hidden', e.isIntersecting && slot.classList.contains('printed')); });
+    es.forEach(function (e) { printOn = e.isIntersecting && slot.classList.contains('printed'); });
+    syncBar();
   }).observe($('.print'));
+  new IntersectionObserver(function (es) {
+    es.forEach(function (e) { heroOn = e.intersectionRatio >= .9; });
+    syncBar();
+    bar.classList.add('ready');
+  }, { threshold: [0, .9, 1] }).observe($('.hero .cta'));
 
   /* ---------- Riding by scrolling ---------- */
   var scrubTween = null, prog = { v: 0 };
