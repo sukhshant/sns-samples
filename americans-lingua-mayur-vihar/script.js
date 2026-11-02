@@ -17,8 +17,8 @@
     var n = cleanName();
     nameSlots.forEach(function (s) {
       s.textContent = n;
-      s.style.setProperty('--len', n.length);
-      s.dataset.size = n.length > 12 ? 's' : n.length > 8 ? 'm' : 'l';
+      /* Sized to the longest word, so a name never breaks mid-word on the seat */
+      s.style.setProperty('--len', Math.max(1, Math.max.apply(null, n.split(/\s+/).map(function (w) { return w.length; }))));
     });
     take.href = WA + encodeURIComponent(message());
   }
@@ -72,7 +72,7 @@
   var disc = document.getElementById('disc');
   var finalPanel = document.getElementById('final');
   var ripples = [].slice.call(stage.querySelectorAll('.ripples i'));
-  var centre = stage.querySelector('.ring-centre');
+  var track = stage.querySelector('.track');
   var RINGS = [1, 2, 2, 3, 3];
   /* Pulled into a ring by people, not placed by a computer: [turn in degrees, drift in px] */
   var HAND = [[-4, 3], [3, -5], [-2, 4], [5, -3], [-3, 4], [2, 0]];
@@ -98,27 +98,36 @@
       g.cx = W - g.L - g.R - g.S / 2;
       g.cy = H / 2;
       g.A = 180;
+      g.base = g.cy; g.stops = [g.cy, g.cy, g.cy, g.cy, g.cy, g.cy];
       g.finalX = g.cx; g.finalY = g.cy; g.finalK = Math.min(2.8, (H * 0.6) / g.S);
       stage.style.setProperty('--L', g.L + 'px');
       stage.style.setProperty('--copy-w', Math.round(g.cx - g.R - g.S / 2 - g.L - 32) + 'px');
     } else {
       g.R = clamp(W * 0.62, 210, 420);
       g.S = Math.min(g.R * 0.62, 200);
-      var top = H * 0.64;
       g.cx = W / 2;
-      g.cy = top + g.S / 2 + g.R;
       g.A = -90;
+      stage.style.setProperty('--copy-h', H + 'px');
+      /* The ring sits right under each quote: a quiet voice leaves more of the ring in view, a loud one pushes it down */
+      var stageTop = stage.getBoundingClientRect().top;
+      var voicesTop = stage.querySelector('.voices').getBoundingClientRect().top - stageTop;
+      var lowest = H - g.S * 1.1 - 12;
+      g.stops = voices.map(function (v) {
+        return Math.min(voicesTop + v.offsetHeight + 20, lowest) + g.S * 0.55 + g.R;
+      });
+      g.stops.push(g.stops[STOPS - 1]);
+      g.base = g.stops[0];
+      g.cy = g.base;
       var formEnd = finalPanel.querySelector('.final__note').getBoundingClientRect().bottom - stage.getBoundingClientRect().top;
       g.finalX = g.cx; g.finalY = (formEnd + H) / 2 + 6;
-      g.finalK = clamp((H - formEnd - 20) / g.S, 0.9, 1.7);
-      stage.style.setProperty('--copy-h', Math.round(top - 24) + 'px');
+      g.finalK = Math.min(clamp((H - formEnd - 20) / g.S, 0.9, 2.2), (W * 0.86) / g.S);
     }
     g.D = 2.5 * Math.hypot(W, H);
     stage.style.setProperty('--S', g.S + 'px');
     stage.style.setProperty('--R', g.R + 'px');
     stage.style.setProperty('--D', g.D + 'px');
     stage.style.setProperty('--cx', g.cx + 'px');
-    stage.style.setProperty('--cy', g.cy + 'px');
+    stage.style.setProperty('--cy', g.base + 'px');
     render();
   }
 
@@ -129,6 +138,9 @@
 
   function render() {
     var P = state.p * STOPS;
+    var low = clamp(Math.floor(P), 0, STOPS);
+    g.cy = g.stops[low] + (g.stops[Math.min(low + 1, STOPS)] - g.stops[low]) * (P - low);
+    track.style.transform = 'translateY(' + (g.cy - g.base) + 'px)';
     chairs.forEach(function (ch, i) {
       var a = g.A + (i - P) * 60;
       var pos = slot(a, HAND[i][1]);
@@ -208,7 +220,7 @@
   }).scrollTrigger;
 
   addEventListener('resize', layout);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { layout(); ScrollTrigger.refresh(); });
 
   function stopY(i) { return st.start + (clamp(i, 0, STOPS) / STOPS) * (st.end - st.start); }
   var scroller = { y: 0 };
