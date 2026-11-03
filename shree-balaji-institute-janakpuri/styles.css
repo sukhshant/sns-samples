@@ -39,19 +39,6 @@ figure.fallback::before{content:"Shree Balaji Institute";display:grid;place-item
 .pill:hover{border-color:var(--blue)}
 .pill:active{transform:scale(.94)}
 .pill.on{background:var(--blue);border-color:var(--blue);color:#fff}
-.surface{position:relative;height:min(52vh,420px);min-height:260px;border-radius:10px;background:#fcfcfa;border:1px solid var(--line);overflow:hidden}
-#cv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;transition:opacity .35s}
-#cv.wipe{opacity:0}
-.hint{position:absolute;left:50%;top:50%;width:min(300px,70%);transform:translate(-50%,-50%);pointer-events:none;transition:opacity .5s;color:var(--red)}
-.hint.gone{opacity:0}
-.hint-arrow{fill:none;stroke:var(--red);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:420;stroke-dashoffset:420;opacity:.5;animation:draw 1.8s .5s ease forwards}
-.hint text{fill:var(--red);opacity:.55;font:italic 800 17px 'Bricolage Grotesque',sans-serif}
-@keyframes draw{to{stroke-dashoffset:0}}
-.tray{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:14px -20px -20px;padding:12px 20px;background:#ecebe5;border-top:1px solid var(--line)}
-.marker{width:84px;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--ink) 0 18%,var(--red) 18%);transform:rotate(-3deg)}
-.send{opacity:.45;pointer-events:none;transform:translateY(6px)}
-.send.ready{opacity:1;pointer-events:auto;animation:lift .6s cubic-bezier(.3,1.6,.5,1) both}
-@keyframes lift{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .subjects{padding:0 var(--pad) 72px;max-width:1280px;margin:auto;display:grid;gap:32px}
 .tags{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .tags li{padding:8px 16px;border:1.5px solid var(--blue);border-radius:999px;font-weight:500;color:var(--blue)}
@@ -89,6 +76,6 @@ body{padding-bottom:0}.bar{display:none}
 .proof-photo{position:sticky;top:90px}
 .subjects{grid-template-columns:1.4fr 1fr;align-items:center}
 .visit{grid-template-columns:1fr 1.2fr;gap:64px;align-items:center;padding-left:max(var(--pad),calc((100vw - 1280px)/2));padding-right:max(var(--pad),calc((100vw - 1280px)/2))}
-.board{padding:28px}.tray{margin:18px -28px -28px;padding:14px 28px}
+.board{padding:28px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.hint-arrow{stroke-dashoffset:0}.js .reveal{opacity:1;transform:none}}

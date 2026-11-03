@@ -38,9 +38,8 @@
 </section>
 
 <section class="board-wrap" id="board">
-  <noscript><a class="btn btn-fill" href="https://wa.me/919999888952">WhatsApp us</a></noscript>
-  <div class="board reveal" id="doubtBoard" hidden>
-    <p class="board-label">Stuck on something? Scribble it.</p>
+  <div class="board reveal" id="doubtBoard">
+    <p class="board-label">Stuck on a subject? Ask sir.</p>
     <div class="pills" id="pills" role="radiogroup" aria-label="Subject">
       <button type="button" class="pill on" role="radio" aria-checked="true">Maths</button>
       <button type="button" class="pill" role="radio" aria-checked="false">Physics</button>
@@ -51,20 +50,7 @@
       <button type="button" class="pill" role="radio" aria-checked="false">English</button>
       <button type="button" class="pill" role="radio" aria-checked="false">CS/IP</button>
     </div>
-    <div class="surface">
-      <canvas id="cv" aria-label="Drawing board. Draw with finger or mouse."></canvas>
-      <svg class="hint" id="hint" viewBox="0 0 220 90" aria-hidden="true">
-        <path class="hint-arrow" d="M12 70 C 40 20, 90 20, 110 52 S 150 70, 168 38 M168 38 l-4 14 M168 38 l-14 5"/>
-        <text x="112" y="82">draw here</text>
-      </svg>
-    </div>
-    <div class="tray">
-      <span class="marker" aria-hidden="true"></span>
-      <div class="row">
-        <button type="button" class="btn btn-line" id="clear">Clear</button>
-        <a class="btn btn-fill send" id="send" href="#" target="_blank" rel="noopener">Send to sir</a>
-      </div>
-    </div>
+    <a class="btn btn-fill" id="send" href="https://wa.me/919999888952?text=Hi%20sir%2C%20I%20have%20a%20doubt%20in%20Maths.%20Can%20you%20help%3F" target="_blank" rel="noopener">Ask on WhatsApp</a>
   </div>
 </section>
 
