@@ -239,3 +239,5 @@ address{font-style:normal;margin-bottom:22px}
   .wipe{background-size:100% .26em}
   .js .reveal{opacity:1;transform:none}
 }
+/* every option visible: no hidden sideways scrolling */
+.seg{flex-wrap:wrap;overflow:visible;margin-inline:0}

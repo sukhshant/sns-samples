@@ -187,3 +187,5 @@ address{font-style:normal;font-size:1.15rem;font-weight:500;margin-bottom:1rem;m
 .rb-num,.rep-num{display:inline-flex}
 .rep-num{display:flex}
 .hero,.band,.final,main{overflow-x:clip}
+/* every option visible: no hidden sideways scrolling */
+.shade-strip{flex-wrap:wrap;overflow:visible;margin-inline:0}

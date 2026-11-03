@@ -238,3 +238,5 @@ address{font-style:normal;font-size:18px;line-height:1.5}
   *,*::before,*::after{animation:none!important;transition:none!important}
   .js .reveal{opacity:1;transform:none}
 }
+/* every option visible: no hidden sideways scrolling */
+.chips--scroll{flex-wrap:wrap;overflow:visible;margin-inline:0}

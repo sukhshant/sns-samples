@@ -237,3 +237,6 @@ mark{background:var(--tint);color:var(--ink);padding:0 2px;border-radius:3px;box
   .js .reveal{opacity:1;transform:none}
   .sheet,.drawer.open .sheet{transform:none}
 }
+/* every option visible: no hidden sideways scrolling */
+.days{flex-wrap:wrap;overflow:visible;margin-inline:0}
+.chips-scroll{flex-wrap:wrap;overflow:visible;margin-inline:0}

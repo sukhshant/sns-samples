@@ -334,3 +334,5 @@ address .ic{margin-top:1px}
   .js .tr.pre .tr-name{font-stretch:125%;opacity:1}
   .js .rev.pre mark{background-size:100% .42em}
 }
+/* every option visible: no hidden sideways scrolling */
+.jrow{flex-wrap:wrap;overflow:visible;margin-inline:0}

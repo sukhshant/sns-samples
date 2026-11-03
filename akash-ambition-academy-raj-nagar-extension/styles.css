@@ -136,3 +136,5 @@ address{font-style:normal;font-size:1.15rem;max-width:34ch}
 .chips li a:focus-visible{outline:2px solid currentColor;outline-offset:3px}
 /* every option visible: no hidden sideways scrolling */
 .chips{flex-wrap:wrap;overflow:visible}
+/* every option visible: no hidden sideways scrolling */
+.pill-row{flex-wrap:wrap;overflow:visible;margin-inline:0}
