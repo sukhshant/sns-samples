@@ -420,3 +420,10 @@ address { margin-top: 18px; font-style: normal; font-size: 18px; line-height: 1.
   .rt-btn { padding-inline: 8px; font-size: 15px; }
   .rt-btn .ic { display: none; }
 }
+.rail:not(.all) .extra, .rail:not(.all) .linelabel.is-extra { display: none; }
+#allbtn { margin: 16px 0 0 48px; }
+.rail.all ~ #allbtn { display: none; }
+.sir h2 { font-size: 28px; line-height: 1.1; letter-spacing: 0; text-indent: 0; }
+.t-lg .tbody > p:first-child { font: inherit; }
+@media (min-width: 768px) { .sir h2 { font-size: 36px; } .t-lg .tbody > p:first-child { font-size: 16px; line-height: 1.48; } }
+.hi { display: none; }

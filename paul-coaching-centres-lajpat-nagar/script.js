@@ -219,7 +219,7 @@
     hideTicket();
     clearRoute();
     mode = 'express';
-    rail.classList.add('is-express');
+    rail.classList.add('is-express', 'all');
     bringBoardUp();
     stations.forEach(function (s) { if (ids.indexOf(s.getAttribute('data-id')) < 0) s.classList.add('folded'); });
     labels.forEach(function (l) { l.classList.add('folded'); });
@@ -397,4 +397,13 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { drawConnector(); measure(); syncScrub(); });
   }
   start();
+})();
+document.getElementById('allbtn').addEventListener('click', function () {
+  document.getElementById('rail').classList.add('all');
+  window.dispatchEvent(new Event('resize'));
+});
+(function () { // options load on first touch, so the page shows only a short list until the finder is used
+  var s = document.getElementById('school'), t = document.getElementById('opts'), done = false;
+  function fill() { if (done) return; done = true; s.appendChild(t.content.cloneNode(true)); }
+  ['pointerdown', 'focus', 'keydown', 'touchstart'].forEach(function (e) { s.addEventListener(e, fill, { passive: true }); });
 })();
