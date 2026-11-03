@@ -360,3 +360,9 @@ cite{display:block;font:500 .9375rem/1.4 var(--body);margin-top:12px}
   .links{display:flex;gap:26px;position:absolute;left:50%;transform:translateX(-50%)}
   .rev-list{grid-template-columns:repeat(3,1fr)}
 }
+
+.quote{font-size:1.125rem}.who{font-size:.875rem}
+blockquote{font:500 1.125rem/1.4 var(--body);max-width:none}
+.wall-grid:not(.open) .tile:nth-child(n+5){display:none}
+.wall-more{margin-top:16px}
+@media (min-width:1024px){.wall-grid:not(.open) .tile-big{grid-row:1}}
