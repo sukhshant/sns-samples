@@ -278,3 +278,8 @@ section[id]{scroll-margin-top:var(--nav)}
   .js .reveal{opacity:1;transform:none;transition:none}
   .btn,.bar,.nav{transition:none}
 }
+
+/* Quiet copy: reviews at body size, hero line plain */
+.stage .voice blockquote,.reviews .review__text{font:500 18px/1.45 var(--text)!important}
+.hero__quote{font:500 20px/1.4 var(--text)!important;margin-top:14px}
+.book__band{grid-template-columns:minmax(0,800px)!important}
