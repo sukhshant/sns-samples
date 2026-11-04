@@ -6,7 +6,7 @@
   --gut:20px;
 }
 *{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth;scroll-padding-top:76px;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;scroll-padding-top:108px;-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font:400 17px/1.55 "DM Sans",system-ui,sans-serif;overflow-x:hidden}
 button,input,select,a{font-family:inherit}
 img{display:block;max-width:100%}
@@ -27,9 +27,16 @@ section{padding:72px var(--gut)}
 .btn-sm{min-height:44px;padding:0 16px;font-size:15px}
 
 /* bar */
-.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px var(--gut);background:rgba(24,22,27,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.bar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:8px var(--gut);background:rgba(24,22,27,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .brand{font:700 14px/1.15 "Syne",sans-serif;text-decoration:none;max-width:150px}
 .bar-actions{display:flex;gap:8px}
+.menu{display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.menu::-webkit-scrollbar{display:none}
+.menu a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 9px;color:inherit;font-size:14px;font-weight:500;text-decoration:none;white-space:nowrap}
+.menu a:hover{text-decoration:underline;text-underline-offset:4px}
+.menu{order:3;width:100%;margin:-4px -9px -6px}
+.bar .brand{flex:1 1 0;min-width:0}
+.bar-actions{flex:none}
 
 /* hero */
 .hero{position:relative;height:calc(100svh - 61px);min-height:560px;padding:0;display:flex;align-items:flex-end;overflow:hidden}
@@ -109,7 +116,7 @@ section{padding:72px var(--gut)}
 /* reviews */
 .reviews{max-width:1160px;margin:0 auto;display:grid;gap:36px;padding-top:96px}
 .rv{border-left:2px solid var(--gold);padding-left:18px;max-width:52ch}
-.rv p{font-size:16px;line-height:1.55}
+.rv p{font-size:18px;line-height:1.55}
 .rv footer{margin-top:10px;font-size:14px;color:var(--mute)}
 
 .team{max-width:1160px;margin:0 auto;padding-top:24px}
@@ -140,9 +147,13 @@ address{font-style:normal;margin-top:18px;max-width:40ch;color:var(--mute)}
   :root{--gut:48px}
   .brand{max-width:none;font-size:17px}
   .bar{padding:10px var(--gut)}
+  html{scroll-padding-top:76px}
+  .bar{flex-wrap:nowrap}
+  .menu{order:0;width:auto;margin:0 0 0 auto}
+  .bar .brand{flex:none;white-space:nowrap}
   .hero{height:calc(100svh - 64px)}
   .hero-copy{padding-bottom:64px}
-  .reviews{grid-template-columns:repeat(3,1fr);gap:48px}
+  .reviews{grid-template-columns:repeat(3,1fr);gap:48px;align-items:start}
   .r2{margin-top:56px}.r3{margin-top:112px}
   .wow{padding:96px var(--gut) 120px}
   .wow-grid{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:64px;align-items:start}

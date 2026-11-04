@@ -11,7 +11,7 @@
   --ease:cubic-bezier(.2,.8,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;scroll-padding-top:110px;-webkit-text-size-adjust:100%}
 body{background:var(--floor);color:var(--walnut);font-family:'Manrope',system-ui,sans-serif;font-size:16px;line-height:1.55;overflow-x:hidden;padding-bottom:84px}
 img{display:block;max-width:100%;height:auto}
 button,input,select{font-family:'Manrope',system-ui,sans-serif;font-size:inherit;color:inherit}
@@ -35,12 +35,20 @@ h2{font-size:clamp(1.55rem,5.4vw,2.6rem)}
 .row{display:flex;flex-wrap:wrap;gap:12px}
 
 /* nav */
-.nav{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px var(--gut);background:rgba(42,25,18,.94);color:var(--floor);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.nav{position:sticky;top:0;z-index:30;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:10px var(--gut);background:rgba(42,25,18,.94);color:var(--floor);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-height:44px}
 .crest{width:38px;height:26px;color:var(--floor);flex:none}
 .brand b{font-family:'Unbounded',sans-serif;font-size:14px;letter-spacing:.02em}
 .brand em{display:none;font-style:normal;font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700}
 .nav-actions{display:flex;gap:8px}
+.menu{display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.menu::-webkit-scrollbar{display:none}
+.menu a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 9px;color:inherit;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap}
+.menu a:hover{text-decoration:underline;text-underline-offset:4px}
+.menu{order:3;width:100%;margin:-6px -9px -8px}
+.nav .brand{flex:1 1 0;min-width:0}
+.nav-actions{flex:none}
+@media (min-width:1100px){html{scroll-padding-top:72px}.nav{flex-wrap:nowrap}.nav .brand{flex:none}.menu{order:0;width:auto;margin:0 0 0 auto}}
 
 /* hero */
 .hero{display:grid;gap:8px;padding:28px 0 52px;overflow:hidden}
@@ -162,7 +170,7 @@ html:not(.js) .beam,html:not(.js) .pool,html:not(.js) .stamp{display:none}
 .rev-list{display:grid;gap:26px}
 blockquote{position:relative;padding-left:22px;max-width:60ch}
 blockquote::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:6px;background:var(--pink);border-radius:var(--r)}
-blockquote p{font-size:16px;line-height:1.55;margin-bottom:8px}
+blockquote p{font-size:18px;line-height:1.55;margin-bottom:8px}
 blockquote footer{font-size:14px;color:var(--ink-soft)}
 blockquote footer b{color:var(--walnut)}
 
