@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gupta Tent &amp; Caterers, Shalimar Bagh</title>
+<meta name="description" content="Tent, decor and catering from Shalimar Bagh, Delhi.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#153F2E">
+<meta property="og:title" content="Gupta Tent &amp; Caterers">
+<meta property="og:description" content="Your function, under one roof.">
+<meta property="og:image" content="https://lh3.googleusercontent.com/grass-cs/AABkmLekWHl9XsMIwuRWwrDxLsAg7lyrMzjb5M_ijo_NgTnKvsD_zUz4DIBwkKI_VLSqODc3Ij6WHmldw5lblmjyX3v2Mtyeh2uzPKF9hjNavLUI-Y-M2A-w3adJ7R2LQv3YQHDkNPobZTVGwc0=s4800-w1600">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 22L16 6l14 16z' fill='%23F2A20C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;700&family=Plus+Jakarta+Sans:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="#top">Gupta Tent &amp; Caterers</a>
+  <nav aria-label="Sections">
+    <a href="#planner">Planner</a>
+    <a href="#work">Work</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#find">Find us</a>
+    <a href="tel:+919718885572">Call</a>
+  </nav>
+  <a class="btn btn-sm" href="https://wa.me/919718885572?text=Hi%2C%20I%27d%20like%20a%20rough%20quote%20for%20a%20function." target="_blank" rel="noopener">WhatsApp</a>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="bunting" aria-hidden="true"></div>
+  <div class="hero-text">
+    <h1>Your function, under one roof.</h1>
+    <p class="lead">Tent, decor and catering from Shalimar Bagh.</p>
+    <div class="actions">
+      <a class="btn" href="#planner">Get a rough quote on WhatsApp</a>
+      <a class="btn btn-line" href="tel:+919718885572">Call</a>
+    </div>
+    <a class="rate" href="https://maps.google.com/?cid=11725424013025769932&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">4.8 on Google, 143 reviews</a>
+  </div>
+  <figure class="hero-photo">
+    <img src="https://lh3.googleusercontent.com/grass-cs/AABkmLekWHl9XsMIwuRWwrDxLsAg7lyrMzjb5M_ijo_NgTnKvsD_zUz4DIBwkKI_VLSqODc3Ij6WHmldw5lblmjyX3v2Mtyeh2uzPKF9hjNavLUI-Y-M2A-w3adJ7R2LQv3YQHDkNPobZTVGwc0=s4800-w1600" width="3024" height="4032" alt="Five-storey house draped in teal and yellow fabric with flower balls" referrerpolicy="no-referrer" onerror="phFix(this)">
+    <figcaption>Photo: Shubhanshu Gupta on Google Maps</figcaption>
+  </figure>
+</section>
+
+<section class="planner wow" id="planner">
+  <div class="panel">
+    <h2>Plan your shamiana</h2>
+    <div class="grid">
+      <div class="controls">
+        <div class="step">
+          <span class="lab" id="l-fn">Function</span>
+          <div class="chips" role="group" aria-labelledby="l-fn">
+            <button type="button" data-fn="Haldi" data-g="80">Haldi</button>
+            <button type="button" data-fn="Mehndi" data-g="130">Mehndi</button>
+            <button type="button" data-fn="Cocktail" data-g="160">Cocktail</button>
+            <button type="button" data-fn="Wedding" data-g="240" aria-pressed="true">Wedding</button>
+            <button type="button" data-fn="House decoration">House decoration</button>
+          </div>
+        </div>
+        <div class="step" id="guestStep">
+          <label class="lab" for="guests">Guests</label>
+          <div class="big"><output id="gOut" for="guests">240</output></div>
+          <input type="range" id="guests" min="20" max="600" step="10" value="240">
+        </div>
+        <div class="step" id="floorStep" hidden>
+          <span class="lab" id="l-fl">Floors</span>
+          <div class="stepper" role="group" aria-labelledby="l-fl">
+            <button type="button" id="fMinus" aria-label="Fewer floors">&minus;</button>
+            <output id="fOut">3</output>
+            <button type="button" id="fPlus" aria-label="More floors">+</button>
+          </div>
+        </div>
+        <div class="step" id="catStep">
+          <span class="lab" id="l-ct">Catering</span>
+          <div class="toggle" role="group" aria-labelledby="l-ct">
+            <button type="button" data-cat="Yes" aria-pressed="true">Yes</button>
+            <button type="button" data-cat="No" aria-pressed="false">No</button>
+          </div>
+        </div>
+      </div>
+      <div class="stage">
+        <svg id="tent" viewBox="0 0 1200 330" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Tent that widens with guest count">
+          <defs><clipPath id="roofclip"><polygon points="0,112 80,62 160,112"/></clipPath></defs>
+          <rect class="ground" x="0" y="300" width="1200" height="30"/>
+          <g id="tentG"></g>
+          <g id="tables"></g>
+          <g id="houseG"></g>
+        </svg>
+        <ul class="res" id="res" aria-live="polite"></ul>
+        <p class="note">A rough plan. Final setup after a site visit.</p>
+      </div>
+    </div>
+    <div class="send">
+      <label>Date <input type="date" id="date"></label>
+      <label>Venue <input type="text" id="venue" autocomplete="off"></label>
+      <a class="btn" id="send" href="https://wa.me/919718885572?text=Hi%2C%20I%27d%20like%20a%20rough%20quote%20for%20a%20function." target="_blank" rel="noopener"><span class="js-only">Send this plan on WhatsApp</span><span class="nojs-only">Message us on WhatsApp</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="work" id="work">
+  <h2 class="reveal">Recent setups</h2>
+  <div class="strip" tabindex="0" aria-label="Photos, swipe sideways">
+    <figure class="card"><img src="https://lh3.googleusercontent.com/grass-cs/AABkmLfyRaLwNV_KPlWPjCoKJ9ssyxXKnA5EeCaR0Hoo4PnXmIfa7B2NDPTopH1_K_DXJz6hrtYD_tFSZeBiDTTALZ_YL56efRLvwHIs7FJHv_JmiuM1-aV8vBcgbEodG-bztNKPwqPeVA=s4800-w1440" width="1440" height="810" loading="lazy" alt="Haldi stage with white sofas" referrerpolicy="no-referrer" onerror="phFix(this)"><figcaption>Photo: Gupta Tent &amp; Caterers on Google Maps</figcaption></figure>
+    <figure class="card wide"><img src="https://lh3.googleusercontent.com/grass-cs/AABkmLcPjqMQjWpCHsniLXjxSWHsQUFdHnoljuH1nj3SgLZh9p1_FdyKoNwwmp8hI4hGBkRgx9oFr8_Zs7FcqGaQIhGWXDrfODp1CXoR4OhjF0_JjaY4lJvdNx2PxgqHepZnkqtJ6RlPNIYytGAq=s4800-w1600" width="4032" height="3024" loading="lazy" alt="Purple cocktail corner with chandeliers" referrerpolicy="no-referrer" onerror="phFix(this)" style="object-position:50% 0"><figcaption>Photo: Gupta Tent &amp; Caterers on Google Maps</figcaption></figure>
+    <figure class="card"><img src="https://lh3.googleusercontent.com/grass-cs/AABkmLfO4dI5M4We9GiB9tuVe03XwfSrJEs8BkiRCflePDZrmijJL0I7MsciOniD1-c7wOnZZ1b_Mo86EZPIEUKvvWifdBbIfZD3j6wh8jAZD1Vus8SrshGsMV3Ippk36ruXYJ5YomqAUA=s4800-w1125" width="1125" height="1244" loading="lazy" alt="Marigold mehndi corner" referrerpolicy="no-referrer" onerror="phFix(this)"><figcaption>Photo: Gupta Tent &amp; Caterers on Google Maps</figcaption></figure>
+    <figure class="card"><img src="https://lh3.googleusercontent.com/grass-cs/AABkmLfg_XpW9ZhFBcNcF51KGsuyrHzPdDHSfS1HYefXeNrKS955cYcGBxj-TXvCaco9HVDhO1AnSpASRBUq7a33dx11w5bFSi3kw1sjC757rtcztB1_GGd5ew1zaoPO6rTQD7YpOdscBBIz9FQ=s4800-w1600" width="3024" height="4032" loading="lazy" alt="Fairy-light ceiling with white drapes" referrerpolicy="no-referrer" onerror="phFix(this)"><figcaption>Photo: Gupta Tent &amp; Caterers on Google Maps</figcaption></figure>
+    <figure class="card wide"><img src="https://lh3.googleusercontent.com/grass-cs/AABkmLfZQ9YGRnwcZnmTKdt0UcMZwf87s6SaYpmzWjiGCxY4CcsZXGHbMPZgnxKh9XKVfWelDAFCszrk-IWuGWTe8QJ57mtESxH6KGHUM7Ab0sxBzFffUjImfMjdlL5T55XaQckXhdWM=s4800-w1600" width="4192" height="2795" loading="lazy" alt="Buffet counter" referrerpolicy="no-referrer" onerror="phFix(this)"><figcaption>Photo: Gupta Tent &amp; Caterers on Google Maps</figcaption></figure>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <h2 class="reveal">Reviews</h2>
+  <div class="rv">
+    <blockquote class="reveal"><p>The best Tent service. Subhanshu did a wonderful job. From day 1 till the last day, he made sure everything was top notch.</p><footer>Varun Gupta, on Google Maps</footer></blockquote>
+    <blockquote class="reveal"><p>...he managed to completely change the outlook of my street for my mehandi and haldi function.</p><footer>Shambhavi Jha, on Google Maps</footer></blockquote>
+    <blockquote class="reveal"><p>The designs were unique, the finishing was flawless, and the entire team was professional from start to finish.</p><footer>Romit Arora, on Google Maps</footer></blockquote>
+    <blockquote class="reveal"><p>The team was professional, punctual, and paid attention to every detail... Everything was completed on time, making the event stress-free.</p><footer>Pankaj Jain, on Google Maps</footer></blockquote>
+    <blockquote class="reveal"><p>The lighting arrangement, decoration quality, and attention to detail were impressive. The team was professional, punctual, and cooperative throughout the event.</p><footer>Radhe, on Google Maps</footer></blockquote>
+  </div>
+  <a class="rate" href="https://maps.google.com/?cid=11725424013025769932&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">4.8 from 143 reviews</a>
+</section>
+
+<section class="find" id="find">
+  <div class="find-text">
+    <h2 class="reveal">Find us</h2>
+    <address>41, near by vikas cabel factory, Haiderpur, Shalimar Bagh, Delhi 110088</address>
+    <p class="hours">Open 24 hours, every day</p>
+    <p class="ask">Ask for Shubhanshu Gupta</p>
+    <div class="actions">
+      <a class="btn" href="tel:+919718885572">97188 85572</a>
+      <a class="btn" href="tel:+918800748206">88007 48206</a>
+      <a class="btn btn-line" href="https://wa.me/919718885572?text=Hi%2C%20I%27d%20like%20to%20talk%20about%20a%20function." target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn btn-line" href="https://maps.google.com/?cid=11725424013025769932&amp;g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA" target="_blank" rel="noopener">Directions</a>
+    </div>
+  </div>
+  <iframe title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Gupta+Tent+%26+Caterers+Shalimar+Bagh+Delhi&amp;output=embed"></iframe>
+</section>
+</main>
+
+<footer class="foot">
+  <span>Gupta Tent &amp; Caterers</span>
+  <a href="tel:+919718885572">97188 85572</a>
+  <a class="credit" href="https://sns-automation-agency.ai.studio" target="_blank" rel="noopener">Built by SNS Automations</a>
+</footer>
+<script>document.documentElement.classList.add('js');function phFix(i){var d=document.createElement('div');d.className='ph';d.textContent=i.alt;i.replaceWith(d)}</script>
+<script src="script.js"></script>
+</body>
+</html>
