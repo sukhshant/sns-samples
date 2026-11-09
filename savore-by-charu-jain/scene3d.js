@@ -326,8 +326,9 @@ export function premixScene(canvas, { reduced, section, onStep }) {
   const bub = Array.from({ length: 12 }, (_, i) => { const a = i * 2.4, r = .25 + (i % 4) * .17; return { x: Math.cos(a) * r, z: Math.sin(a) * r, d: (i % 5) * .012 }; });
   const powderStream = stream(0xF3EBDB), batterStream = stream(BATTER.vanilla); root.add(powderStream, batterStream);
   // layout along x: jar & bowl, pan, plate
-  const JAR = new THREE.Vector3(-4.3, 0, -.2), BOWL = new THREE.Vector3(-2.7, -.95, .3), PAN = new THREE.Vector3(.2, -.95, 0), PLATE = new THREE.Vector3(3.6, -.95, 0);
-  pan.position.copy(PAN); stack.group.position.copy(PLATE);
+  const JAR = new THREE.Vector3(-4.3, 0, -.2), BOWL = new THREE.Vector3(-2.7, -.95, .3), PAN = new THREE.Vector3(.2, -.95, 0), PLATE = new THREE.Vector3(3.9, -.95, 0);
+  pan.position.copy(PAN); pan.rotation.y = Math.PI * .62; // handle points back, away from the plate and the bowl
+  stack.group.position.copy(PLATE);
   const stackTop = PLATE.y + stack.top;
   const mouthJar = new THREE.Vector3(), mouthBowl = new THREE.Vector3(), tmp = new THREE.Vector3();
   let dist = 9;
