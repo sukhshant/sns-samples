@@ -1,4 +1,4 @@
-// Savoré by Charu Jain: WhatsApp ordering, price estimates and the 3D scenes.
+// Savoré by Charu: WhatsApp ordering, price estimates and the 3D scenes.
 
 // SAMPLE number: replace with Charu's real WhatsApp before going live.
 const WA_NUMBER = '919876543210';

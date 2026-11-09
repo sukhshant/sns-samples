@@ -84,7 +84,7 @@ function labelTexture(flavour) {
     g.fillStyle = '#3B2220'; g.font = '600 46px Fraunces, Georgia, serif'; g.fillText(L.name, cx, 372);
     g.fillStyle = '#4A2A18'; rr(g, cx - 200, 398, 400, 46, 23); g.fill();
     g.fillStyle = '#FFF4E4'; g.font = '800 24px Nunito, sans-serif'; g.fillText('Whisk It. Flip It. Love It.', cx, 429);
-    g.fillStyle = '#5A3016'; g.font = '400 34px "Pinyon Script", cursive'; g.fillText('Savoré By Charu Jain', cx, 488);
+    g.fillStyle = '#5A3016'; g.font = '400 34px "Pinyon Script", cursive'; g.fillText('Savoré By Charu', cx, 488);
   });
 }
 function bandTexture() {

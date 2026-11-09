@@ -1,4 +1,4 @@
-/* Savoré by Charu Jain. Cream and brick red from her logo, pastels from her own cakes. */
+/* Savoré by Charu. Cream and brick red from her logo, pastels from her own cakes. */
 :root {
   --cream: #F2EDE1; --paper: #FBF8F1; --ink: #3B2220; --ink-2: #6F4C46;
   --red: #B23F3E; --red-deep: #8E2D2D; --blush: #F4C3CC; --blush-2: #F9DDE2; --rose: #DE8C9C;
@@ -79,9 +79,9 @@ em { font-style: italic; color: var(--cocoa) }
 .chip[aria-checked="true"].chip-vanilla { background: var(--butter); color: #5A3B12; box-shadow: none }
 .chip[aria-checked="true"].chip-choc { background: var(--cocoa); color: #FFF4EA; box-shadow: none }
 .steps { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 10px }
-.step { padding: 12px 16px; border-radius: 16px; color: var(--ink-2); background: transparent; transition: background .4s var(--ease), color .4s }
+.step { padding: 12px 16px; border-radius: 16px; color: var(--ink-2); background: transparent; opacity: .45; transform: translateX(0); transition: background .7s var(--ease), color .7s var(--ease), opacity .7s var(--ease), transform .7s var(--ease) }
 .step b { font-family: var(--display); font-variation-settings: "SOFT" 100; font-size: 1.25rem; color: var(--ink); margin-right: 6px }
-.step.is-on { background: var(--blush-2); color: var(--ink) }
+.step.is-on { background: var(--blush-2); color: var(--ink); opacity: 1; transform: translateX(6px) }
 .premix-photo { position: absolute; right: 14px; top: 14px; width: 24%; max-width: 140px; margin: 0; rotate: 4deg }
 .premix-photo figcaption { font-size: .78rem }
 
@@ -198,9 +198,10 @@ legend, .field span { display: block; margin-bottom: 8px; font-weight: 800; font
   .tagline { grid-column: 1 / -1; margin: 0 0 4px; font-size: 1.5rem }
   .flavours { grid-column: 1 / -1; margin: 0 }
   .chip { min-height: 40px; padding: 0 14px; font-size: .92rem }
-  .steps { grid-column: 1; margin: 4px 0 0 }
-  .step { display: none; padding: 8px 12px }
-  .step.is-on { display: block; min-height: calc(3 * 1.55em + 16px) } /* same height for every step, so the stage never jumps */
+  /* steps share one spot and cross-fade, so the box never changes size */
+  .steps { grid-column: 1; margin: 4px 0 0; display: grid }
+  .step { grid-area: 1 / 1; padding: 8px 12px; min-height: calc(3 * 1.55em + 16px); opacity: 0; transform: translateY(10px); pointer-events: none }
+  .step.is-on { opacity: 1; transform: none; pointer-events: auto }
   .premix-copy > .btn { grid-column: 2; align-self: end; min-height: 44px; padding: 0 16px; font-size: .92rem }
   .premix-stage { flex: 1; min-height: 0; height: auto }
 }
