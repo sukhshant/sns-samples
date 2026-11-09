@@ -331,15 +331,14 @@ export function premixScene(canvas, { reduced, section, onStep }) {
   stack.group.position.copy(PLATE);
   const stackTop = PLATE.y + stack.top;
   const mouthJar = new THREE.Vector3(), mouthBowl = new THREE.Vector3(), tmp = new THREE.Vector3();
-  let dist = 9;
-  s.onResize = (a) => { dist = 8.6 / Math.min(1, Math.max(a, .55) * 1.08); };
+  let dist = 9, lookY = -.45;
+  s.onResize = (a) => { dist = 8.6 / Math.min(1, Math.max(a, .55) * 1.08); lookY = a < .85 ? -.72 : -.45; }; // tall phone stages: keep the cooking centred
   s.onResize(s.aspect);
   let stepNow = -1, auto = 0, camX = -3;
   const progress = (dt) => {
     if (reduced) return .97;
     const r = section.getBoundingClientRect(), span = r.height - innerHeight;
-    if (span > innerHeight * .5) return clamp(-r.top / span);
-    auto = (auto + dt / 16) % 1; return auto; // phones: the section is short, so the story plays on a loop
+    return span > 0 ? clamp(-r.top / span) : (auto = (auto + dt / 16) % 1); // pinned on every screen size; loop only if it can't pin
   };
   s.update = (t, dt) => {
     const p = progress(dt);
@@ -401,7 +400,7 @@ export function premixScene(canvas, { reduced, section, onStep }) {
     // camera: bowl -> pan -> plate
     const target = p < .33 ? -3.1 : p < .74 ? PAN.x : THREE.MathUtils.lerp(PAN.x, PLATE.x - .2, seg(p, .74, .84));
     camX += (target - camX) * Math.min(1, dt * (reduced ? 60 : 2.2));
-    s.camera.position.set(camX, 2.6, dist); s.camera.lookAt(camX, -.45, 0);
+    s.camera.position.set(camX, 2.6, dist); s.camera.lookAt(camX, lookY, 0);
   };
   return {
     setFlavour(f) {

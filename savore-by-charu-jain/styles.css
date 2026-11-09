@@ -188,6 +188,22 @@ legend, .field span { display: block; margin-bottom: 8px; font-weight: 800; font
 /* Gentle reveal, already visible by default */
 .tilt { transition: transform .6s var(--ease) }
 
+/* Phones and tablets: the premix section pins while the pancake cooks, then releases. */
+@media (max-width: 959px) {
+  .premix { height: 340svh }
+  .premix-sticky { position: sticky; top: var(--bar, 62px); height: calc(100svh - var(--bar, 62px)); display: flex; flex-direction: column; gap: 10px; padding: 14px var(--gut) 16px }
+  .premix-copy { flex: none; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px }
+  .premix-copy h2 { grid-column: 1 / -1; font-size: clamp(1.7rem, 7.4vw, 2.3rem) }
+  .premix-copy h2 br { display: none }
+  .tagline { grid-column: 1 / -1; margin: 0 0 4px; font-size: 1.5rem }
+  .flavours { grid-column: 1 / -1; margin: 0 }
+  .chip { min-height: 40px; padding: 0 14px; font-size: .92rem }
+  .steps { grid-column: 1; margin: 4px 0 0 }
+  .step { display: none; padding: 8px 12px }
+  .step.is-on { display: block; min-height: calc(3 * 1.55em + 16px) } /* same height for every step, so the stage never jumps */
+  .premix-copy > .btn { grid-column: 2; align-self: end; min-height: 44px; padding: 0 16px; font-size: .92rem }
+  .premix-stage { flex: 1; min-height: 0; height: auto }
+}
 @media (min-width: 720px) {
   .healthy-grid { grid-template-columns: 1.1fr 1.4fr 1fr 1fr }
   .healthy-note { grid-column: auto; grid-row: span 1; align-self: center }
@@ -201,7 +217,7 @@ legend, .field span { display: block; margin-bottom: 8px; font-weight: 800; font
   .hero-stage { order: 0; height: min(82svh, 760px); margin: 0 }
   .hero-stage::before { width: min(40vw, 560px) }
   .premix { height: 300svh }
-  .premix-sticky { position: sticky; top: 64px; height: calc(100svh - 64px); grid-template-columns: .9fr 1.1fr; align-items: center; gap: 48px; padding-top: 24px; padding-bottom: 24px }
+  .premix-sticky { position: sticky; top: var(--bar, 64px); height: calc(100svh - var(--bar, 64px)); grid-template-columns: .9fr 1.1fr; align-items: center; gap: 48px; padding-top: 24px; padding-bottom: 24px }
   .premix-stage { height: min(78svh, 700px) }
   .builder { grid-template-columns: 1.1fr .9fr; gap: 36px; align-items: start }
   .cake-stage { position: sticky; top: 90px; height: min(76svh, 640px); max-height: none }

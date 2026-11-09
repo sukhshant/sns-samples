@@ -51,6 +51,8 @@ function wireWa() {
 // Sticky bar line and floating WhatsApp button
 function wireChrome() {
   const bar = $('#bar'), float = $('.float-wa'), hero = $('.hero');
+  const setBar = () => document.documentElement.style.setProperty('--bar', bar.offsetHeight + 'px');
+  setBar(); addEventListener('resize', setBar);
   const onScroll = () => {
     bar.classList.toggle('is-scrolled', scrollY > 8);
     const past = hero.getBoundingClientRect().bottom < 0;
