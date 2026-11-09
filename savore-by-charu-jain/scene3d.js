@@ -220,22 +220,6 @@ function makeSprinkles(count, spread, keepOut, palette = [0xF4AFC0, 0xBFE5CC, 0x
     },
   };
 }
-function makeOats(count, spread, keepOut) {
-  const mesh = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 12, 8), M.clay(0xE8D3A8, .85), count);
-  const d = new THREE.Object3D(), items = [];
-  for (let i = 0; i < count; i++) items.push({ p: ((v) => (keepOut?.(v) && (v.z = -Math.abs(v.z) - 1.2), v))(new THREE.Vector3().randomDirection().multiplyScalar(spread * (.7 + Math.random() * .5))), r: new THREE.Euler(Math.random() * 6, Math.random() * 6, 0), ph: Math.random() * 6 });
-  return {
-    group: mesh,
-    update(t) {
-      items.forEach((it, i) => {
-        d.position.copy(it.p); d.position.y += Math.sin(t * .5 + it.ph) * .15;
-        d.rotation.set(it.r.x + t * .2, it.r.y + t * .15, 0); d.scale.set(.17, .045, .12);
-        d.updateMatrix(); mesh.setMatrixAt(i, d.matrix);
-      });
-      mesh.instanceMatrix.needsUpdate = true;
-    },
-  };
-}
 function pointerParallax(el) {
   const p = { x: 0, y: 0, tx: 0, ty: 0 };
   if (matchMedia('(hover: hover)').matches) {
@@ -256,8 +240,7 @@ export function heroScene(canvas, { reduced }) {
   syrup.drips.forEach((d) => { d.scale.y = d.userData.len; });
   syrup.group.position.y = stack.top + PANCAKE_H * .9;
   const front = (v) => v.z > -.8 && Math.abs(v.x + .5) < 1.6 && Math.abs(v.y) < 1.9; // the jar's face
-  const pearls = makeSprinkles(30, 3.1, front); root.add(pearls.group);
-  const oats = makeOats(18, 2.8, front); root.add(oats.group);
+  const pearls = makeSprinkles(12, 3.0, front); root.add(pearls.group);
   const par = pointerParallax(canvas);
   s.onResize = (a) => {
     const narrow = a < .85;
@@ -278,72 +261,153 @@ export function heroScene(canvas, { reduced }) {
     stack.group.rotation.y = t * (reduced ? 0 : .12);
     root.rotation.x = par.y * .06;
     pearls.update(reduced ? 0 : t, easeOut(intro));
-    oats.update(reduced ? 0 : t);
   };
   return s;
 }
 
-// ---------- premix: whisk it, flip it, love it ----------
+// ---------- premix: cook a pancake from the jar, driven by scroll ----------
+// Scroll story: scoop the mix into a bowl and whisk (Whisk it), pour on the pan, bubbles, golden, flip (Flip it),
+// slide onto the stack with syrup and butter (Love it). The camera glides bowl -> pan -> plate; nothing else moves.
+const BATTER = { vanilla: 0xEED9A8, chocolate: 0x9A6A4A }, POWDER = { vanilla: 0xF3EBDB, chocolate: 0xEADFD2 }, GOLDEN = { vanilla: 0xC98843, chocolate: 0x6E4128 };
+function makeBowl() {
+  const g = new THREE.Group();
+  const bowl = new THREE.Mesh(lathe([V2(1.03, .9), V2(1.06, .86), V2(1.0, .48), V2(.62, .03), V2(0, 0)], 56), new THREE.MeshStandardMaterial({ color: 0xF6C9D0, roughness: .35, side: THREE.DoubleSide }));
+  g.add(bowl);
+  const inner = new THREE.Mesh(lathe([V2(.97, .87), V2(.92, .5), V2(.56, .12), V2(0, .1)], 56), new THREE.MeshStandardMaterial({ color: 0xFFF7F4, roughness: .3, side: THREE.DoubleSide }));
+  g.add(inner);
+  const fillMat = new THREE.MeshStandardMaterial({ color: 0xF3EBDB, roughness: .9 });
+  const fill = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, .03, 48), fillMat); g.add(fill);
+  const shadow = shadowDisc(1.5, .25); shadow.position.y = -.01; g.add(shadow);
+  return { group: g, fill, fillMat, setLevel(l) { // l 0..1
+    const y = .12 + l * .55, r = .56 + (y - .12) / .38 * .36;
+    fill.position.y = y; fill.scale.set(Math.min(r, .95), 1, Math.min(r, .95)); fill.visible = l > .01;
+  } };
+}
+function makeWhisk() {
+  const g = new THREE.Group(), steel = new THREE.MeshStandardMaterial({ color: 0xD9D6D2, metalness: .9, roughness: .25 });
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(.06, .05, .9, 16), M.clay(0xF2B7C0, .4)); handle.position.y = 1.25; g.add(handle);
+  for (let i = 0; i < 4; i++) {
+    const loop = new THREE.Mesh(new THREE.TorusGeometry(.2, .012, 6, 32), steel);
+    loop.scale.y = 2.2; loop.rotation.y = i * Math.PI / 4; loop.position.y = .38; g.add(loop);
+  }
+  return g;
+}
+function makePan() {
+  const g = new THREE.Group(), dark = new THREE.MeshStandardMaterial({ color: 0x34302D, roughness: .45, metalness: .3, side: THREE.DoubleSide });
+  g.add(new THREE.Mesh(lathe([V2(1.42, .34), V2(1.38, .32), V2(1.25, .08), V2(0, .06)], 64), dark));
+  g.add(new THREE.Mesh(lathe([V2(1.46, .33), V2(1.3, .02), V2(0, 0)], 64), dark));
+  const handle = new THREE.Mesh(new RoundedBoxGeometry(1.7, .14, .26, 3, .06), M.clay(0x5A3A2A, .5)); handle.position.set(2.2, .3, 0); handle.rotation.z = .12; g.add(handle);
+  const shadow = shadowDisc(1.9, .28); shadow.position.y = -.01; g.add(shadow);
+  return g;
+}
+function stream(color) {
+  const geo = new THREE.CylinderGeometry(.06, .04, 1, 12); geo.translate(0, -.5, 0);
+  const m = new THREE.Mesh(geo, M.clay(color, .8)); m.visible = false;
+  return m;
+}
+function hang(m, from, toY, on) { // a pour from a point straight down to a height
+  m.visible = on && from.y > toY; if (!m.visible) return;
+  m.position.copy(from); m.scale.set(1, from.y - toY, 1);
+}
 export function premixScene(canvas, { reduced, section, onStep }) {
   const s = makeStage(canvas, 30);
   const root = new THREE.Group(); s.scene.add(root);
-  let choc = false;
-  const jar = makeJar('vanilla'); jar.group.scale.setScalar(.78); root.add(jar.group);
-  const stack = makeStack(3, false); root.add(stack.group);
-  const flyer = new THREE.Mesh(pancakeGeo, stack.mat);
-  stack.group.add(flyer);
+  let flavour = 'vanilla';
+  const jar = makeJar('vanilla'); jar.group.scale.setScalar(.7); root.add(jar.group);
+  const bowl = makeBowl(); bowl.group.scale.setScalar(.8); root.add(bowl.group);
+  const whisk = makeWhisk(); whisk.scale.setScalar(.8); root.add(whisk);
+  const pan = makePan(); root.add(pan);
+  const stack = makeStack(2, false); root.add(stack.group);
   const syrup = makeSyrup(); stack.group.add(syrup.group);
-  const pearls = makeSprinkles(24, 2.6, (v) => v.z > -.8 && v.x < -.2 && Math.abs(v.y) < 1.6); root.add(pearls.group);
-  const topY = stack.top;
-  s.onResize = (a) => {
-    const narrow = a < .85;
-    jar.group.position.set(narrow ? -1.15 : -1.55, narrow ? -.1 : -.05, -.4);
-    stack.group.position.set(narrow ? .85 : 1.0, -1.35, .3);
-    s.camera.position.set(0, 1.5, 10.5 / Math.min(1, Math.max(a, .55) * 1.05));
-    s.camera.lookAt(0, -.1, 0);
-  };
+  const cakeRaw = new THREE.MeshStandardMaterial({ color: BATTER.vanilla, roughness: .7 });
+  const cake = new THREE.Mesh(pancakeGeo, cakeRaw); root.add(cake);
+  const bubbles = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 10, 8), M.clay(0xFFF1D6, .5), 12);
+  root.add(bubbles);
+  const bub = Array.from({ length: 12 }, (_, i) => { const a = i * 2.4, r = .25 + (i % 4) * .17; return { x: Math.cos(a) * r, z: Math.sin(a) * r, d: (i % 5) * .012 }; });
+  const powderStream = stream(0xF3EBDB), batterStream = stream(BATTER.vanilla); root.add(powderStream, batterStream);
+  // layout along x: jar & bowl, pan, plate
+  const JAR = new THREE.Vector3(-4.3, 0, -.2), BOWL = new THREE.Vector3(-2.7, -.95, .3), PAN = new THREE.Vector3(.2, -.95, 0), PLATE = new THREE.Vector3(3.6, -.95, 0);
+  pan.position.copy(PAN); stack.group.position.copy(PLATE);
+  const stackTop = PLATE.y + stack.top;
+  const mouthJar = new THREE.Vector3(), mouthBowl = new THREE.Vector3(), tmp = new THREE.Vector3();
+  let dist = 9;
+  s.onResize = (a) => { dist = 8.6 / Math.min(1, Math.max(a, .55) * 1.08); };
   s.onResize(s.aspect);
-  let stepNow = -1, auto = 0;
+  let stepNow = -1, auto = 0, camX = -3;
   const progress = (dt) => {
-    if (reduced) return .95;
+    if (reduced) return .97;
     const r = section.getBoundingClientRect(), span = r.height - innerHeight;
     if (span > innerHeight * .5) return clamp(-r.top / span);
-    auto = (auto + dt / 10) % 1; return auto; // short section (phones): play the story on a loop
+    auto = (auto + dt / 16) % 1; return auto; // phones: the section is short, so the story plays on a loop
   };
   s.update = (t, dt) => {
     const p = progress(dt);
-    const step = p < .34 ? 0 : p < .67 ? 1 : 2;
+    const step = p < .3 ? 0 : p < .72 ? 1 : 2;
     if (step !== stepNow) { stepNow = step; onStep?.(step); }
-    // 1. whisk it: the lid pops and floats
-    const lift = Math.sin(seg(p, .04, .36) * Math.PI);
-    jar.lid.position.y = jar.lidY + easeOut(lift) * .7;
-    jar.lid.rotation.z = lift * .25;
-    jar.group.rotation.y = Math.sin(t * .5) * (reduced ? 0 : .25) + .25;
-    // 2. flip it
-    const f = seg(p, .38, .64);
-    flyer.position.set(0, topY + Math.sin(f * Math.PI) * 1.9, 0);
-    flyer.rotation.x = easeInOut(f) * Math.PI * 2;
-    flyer.rotation.y = .4;
-    // 3. love it: syrup, butter, pearls
-    const sy = seg(p, .68, .84);
-    syrup.group.position.y = topY + PANCAKE_H * .9;
-    syrup.pool.scale.set(.2 + .8 * easeOut(sy), 1, .2 + .8 * easeOut(sy)); syrup.pool.visible = sy > 0;
-    syrup.drips.forEach((d, i) => {
-      const k = easeOut(seg(p, .72 + i * .02, .9 + i * .01)) * d.userData.len;
-      d.scale.y = Math.max(.001, k); d.visible = k > .01;
+    // 1. lid off, tip the jar into the bowl
+    const lid = seg(p, .03, .09);
+    jar.lid.position.set(-easeOut(lid) * 1.6, jar.lidY + Math.sin(lid * Math.PI) * .8 + (lid > .99 ? -2.2 : 0), 0);
+    jar.lid.visible = lid < .99;
+    const tip = Math.sin(seg(p, .08, .24) * Math.PI); // out and back
+    jar.group.position.set(THREE.MathUtils.lerp(JAR.x, -3.25, easeInOut(tip)), THREE.MathUtils.lerp(JAR.y, 1.05, easeInOut(tip)), JAR.z);
+    jar.group.rotation.set(0, .3 * (1 - tip), -1.95 * easeInOut(tip));
+    jar.group.updateMatrixWorld(); mouthJar.copy(jar.group.localToWorld(tmp.set(.95, 1.25, 0)));
+    const level = seg(p, .11, .2);
+    bowl.setLevel(.15 + .65 * level);
+    hang(powderStream, mouthJar, BOWL.y + .5, tip > .55 && p < .21);
+    // whisk: powder becomes batter
+    const wk = seg(p, .2, .31), wIn = Math.sin(wk * Math.PI);
+    whisk.position.set(BOWL.x + Math.sin(t * 6) * .12 * wIn, BOWL.y + .25 + (1 - Math.min(1, wIn * 2)) * 2.4, BOWL.z + Math.cos(t * 6) * .12 * wIn);
+    whisk.rotation.y = t * 9 * wIn; whisk.visible = wk > 0 && wk < 1;
+    bowl.fillMat.color.set(POWDER[flavour]).lerp(new THREE.Color(BATTER[flavour]), seg(p, .22, .3));
+    // 2. pour onto the pan
+    const lift = Math.sin(seg(p, .32, .46) * Math.PI);
+    bowl.group.position.set(THREE.MathUtils.lerp(BOWL.x, PAN.x - .95, easeInOut(lift)), THREE.MathUtils.lerp(BOWL.y, .6, easeInOut(lift)), THREE.MathUtils.lerp(BOWL.z, 0, lift));
+    bowl.group.rotation.z = -1.15 * easeInOut(seg(lift, .5, 1));
+    bowl.group.updateMatrixWorld(); mouthBowl.copy(bowl.group.localToWorld(tmp.set(1.0, .88, 0)));
+    const poured = seg(p, .37, .44);
+    bowl.setLevel(.8 * (1 - poured * .9));
+    hang(batterStream, mouthBowl, PAN.y + .14, lift > .7 && poured > 0 && poured < 1);
+    batterStream.material.color.set(BATTER[flavour]);
+    // the pancake grows, bubbles, turns golden, flips
+    const grow = easeOut(seg(p, .37, .46));
+    const fl = seg(p, .56, .66);
+    const cook = seg(p, .45, .56) * .7 + seg(p, .62, .7) * .3;
+    cakeRaw.color.set(BATTER[flavour]).lerp(new THREE.Color(GOLDEN[flavour]), cook);
+    // 3. slide onto the stack
+    const slide = easeInOut(seg(p, .74, .84));
+    const onPan = new THREE.Vector3(PAN.x, PAN.y + .07, 0), onPlate = new THREE.Vector3(PLATE.x, stackTop, 0);
+    cake.position.lerpVectors(onPan, onPlate, slide);
+    cake.position.y += Math.sin(fl * Math.PI) * 1.5 + Math.sin(slide * Math.PI) * 1.1;
+    cake.rotation.set(easeInOut(fl) * Math.PI * 2, .4, 0);
+    cake.scale.set(Math.max(.02, grow) * .95, slide > 0 ? 1 : .55 + .45 * grow, Math.max(.02, grow) * .95);
+    cake.visible = grow > 0;
+    cake.material = fl > .5 ? stack.mat : cakeRaw; // golden side up after the flip
+    const bubbleOn = seg(p, .46, .5) * (1 - seg(p, .54, .57));
+    const d = new THREE.Object3D();
+    bub.forEach((b, i) => {
+      d.position.set(PAN.x + b.x, PAN.y + .07 + PANCAKE_H * .98, b.z); d.scale.set(1, .5, 1).multiplyScalar(Math.max(.0001, (.07 + b.d) * bubbleOn * grow));
+      d.updateMatrix(); bubbles.setMatrixAt(i, d.matrix);
     });
-    const b = seg(p, .78, .9);
-    syrup.butter.position.y = .16 + (1 - backOut(b)) * 2.4; syrup.butter.visible = b > 0;
-    pearls.group.visible = p > .82;
-    pearls.update(reduced ? 0 : t, easeOut(seg(p, .82, .97)));
-    root.rotation.y = Math.sin(t * .3) * (reduced ? 0 : .05);
+    bubbles.instanceMatrix.needsUpdate = true; bubbles.visible = bubbleOn > 0;
+    // syrup and butter once it lands
+    const sy = seg(p, .85, .93);
+    syrup.group.position.y = stack.top + PANCAKE_H * .9;
+    syrup.pool.scale.set(.2 + .8 * easeOut(sy), 1, .2 + .8 * easeOut(sy)); syrup.pool.visible = sy > 0;
+    syrup.drips.forEach((dr, i) => { const k = easeOut(seg(p, .88 + i * .01, .97)) * dr.userData.len; dr.scale.y = Math.max(.001, k); dr.visible = k > .01; });
+    const b = seg(p, .9, .97);
+    syrup.butter.position.y = .16 + (1 - backOut(b)) * 2.2; syrup.butter.visible = b > 0;
+    // camera: bowl -> pan -> plate
+    const target = p < .33 ? -3.1 : p < .74 ? PAN.x : THREE.MathUtils.lerp(PAN.x, PLATE.x - .2, seg(p, .74, .84));
+    camX += (target - camX) * Math.min(1, dt * (reduced ? 60 : 2.2));
+    s.camera.position.set(camX, 2.6, dist); s.camera.lookAt(camX, -.45, 0);
   };
   return {
     setFlavour(f) {
-      const next = f === 'chocolate';
-      if (next === choc) return;
-      choc = next; jar.setFlavour(f);
-      stack.mat.map.dispose(); stack.mat.map = pancakeTexture(choc); stack.mat.needsUpdate = true;
+      if (f === flavour) return;
+      flavour = f; jar.setFlavour(f);
+      stack.mat.map.dispose(); stack.mat.map = pancakeTexture(f === 'chocolate'); stack.mat.needsUpdate = true;
+      powderStream.material.color.set(POWDER[f]);
     },
   };
 }
