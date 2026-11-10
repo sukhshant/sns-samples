@@ -1,8 +1,8 @@
 // Savoré by Charu: WhatsApp ordering, price estimates and the 3D scenes.
 
-// SAMPLE number: replace with Charu's real WhatsApp before going live.
-const WA_NUMBER = '919876543210';
-const PHONE_TEXT = '+91 98765 43210';
+// Charu's WhatsApp / phone.
+const WA_NUMBER = '919988212369';
+const PHONE_TEXT = '+91 99882 12369';
 
 // SAMPLE PRICES: placeholders for the demo, not Charu's real prices. Confirm with her and edit here.
 const SAMPLE_PRICES = {
